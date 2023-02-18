@@ -28,7 +28,9 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _controller,
+                
                 decoration: InputDecoration(
+                    hintText: "Enter country name or city name",
                     suffixIcon:
                         IconButton(onPressed: () {
                         _searchLocationBloc.add(Searchlocatione(_controller.text));
@@ -40,7 +42,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             BlocBuilder<SearchLocationBloc, SearchLocationState>(
-                builder: (contextk, state) {
+                builder: (context, state) {
               if (state is SearchLocationLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is SearchLocationSuccess) {

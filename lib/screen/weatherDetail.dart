@@ -87,14 +87,30 @@ class _WeatherDetailState extends State<WeatherDetail> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(height: 20,),
+
+
                     BlocBuilder<AirPollutionBloc, AirPollutionState>(
                       builder: (context, state) {
                         if(state is AirPollutionLoading){
                           return CircularProgressIndicator();
                         }
                       else  if(state is AirPollutionSuccess){
-                        var aa = state.airPollutionModel.coordList?[0].main!.aqi;
-                        return Text("$aa");
+                        double airpolution = state.airPollutionModel.coordList?[0].main!.aqi!.toDouble() ?? 0.0;
+                        if(airpolution == 1.0){
+                          return airpollutionText("Good");
+                        }
+                       else if(airpolution == 2.0){
+                          return airpollutionText("Fair");
+                        }
+                       else if(airpolution == 3.0){
+                          return airpollutionText("Moderate");
+                        }
+                       else if(airpolution == 4.0){
+                          return airpollutionText("Poor");
+                        }else{
+                          return airpollutionText("Very poor");
+                        }
                        
                          
                         }
@@ -115,6 +131,16 @@ class _WeatherDetailState extends State<WeatherDetail> {
       ),
     );
   }
+  Widget airpollutionText(text){
+    return   Text("Air pollution : ${text}",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
+                        ),
+                        );
+  }
+   
 
   Widget timeWeather(int time) {
     DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(time * 1000);
